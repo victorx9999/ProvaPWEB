@@ -1,0 +1,25 @@
+version: "3"
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: php:apache-plus
+    ports:
+      - 8080:80
+    volumes:
+      - ./src/:/var/www/html/
+    depends_on:
+      - mysql
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/mysql:/var/lib/mysql
